@@ -16,13 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-XXX:
-    norm_power: 2 or 1
-    log_saturation: w/o > w.
-    max_p_len: 128 or 192
-    shuffle_psgs: w. > w/o
-"""
 from datetime import datetime
 import logging
 import os
@@ -60,9 +53,9 @@ def main():
         model_args, data_args, train_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
     else:
         model_args, data_args, train_args = parser.parse_args_into_dataclasses()
-        model_args: ModelArguments
-        data_args: DataArguments
-        train_args: DqrTrainingArguments
+    model_args: ModelArguments
+    data_args: DataArguments
+    train_args: DqrTrainingArguments
 
     if train_args.do_train:
         if 'unicoil' in model_args.model_name_or_path.replace('/unicoil-b8', ''):

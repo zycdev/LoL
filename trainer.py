@@ -505,6 +505,7 @@ class DqrTrainer(Trainer):
 
         return {k: v.detach() for k, v in losses.items()}
 
+    # noinspection PyAttributeOutsideInit
     def train(
             self,
             resume_from_checkpoint: Optional[Union[str, bool]] = None,
@@ -717,9 +718,7 @@ class DqrTrainer(Trainer):
         # each value in tr_losses is a tensor to avoid synchronization of TPUs through .item()
         tr_losses: Dict[str, torch.Tensor] = dict()
         # _total_loss_scalar is updated everytime .item() has to be called on tr_loss and stores the sum of all losses
-        # noinspection PyAttributeOutsideInit
         self._total_loss_scalar = 0.0
-        # noinspection PyAttributeOutsideInit
         self._globalstep_last_logged = self.state.global_step
         model.zero_grad()
 

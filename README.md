@@ -1,16 +1,29 @@
 # LoL
 
-This repository hosts the authors' implementation of the
-paper [LoL: A Comparative Regularization Loss over Query Reformulation Losses for Pseudo-Relevance Feedback
-](https://arxiv.org/abs/2204.11545), published in SIGIR 2022.
+This repository contains the code and trained models for our SIGIR paper [LoL: A Comparative Regularization Loss over Query Reformulation Losses for Pseudo-Relevance Feedback
+](https://arxiv.org/abs/2204.11545).
 
 ## Usage
 
 ### Setup
 
-Our experiments are conducted on Python 3.6 and PyTorch 1.10, with 4 V100 (32 GB) GPUs.
+Our experiments are conducted in the following environment with 4 V100 (32 GB) GPUs.
+```shell
+conda create -n cr python=3.8
+conda activate cr
+conda install -c conda-forge openjdk=11 maven tensorboard jupyterlab ipywidgets
+conda install pytorch=1.11 torchvision torchaudio cudatoolkit=10.2 faiss-cpu -c pytorch
+conda install -c huggingface -c conda-forge tokenizers=0.12.1 datasets=2.1.0 transformers=4.19.2
+# If libs from huggingface don't work, try to install with pip
+# pip install tokenizers==0.12.1 datasets==2.1.0 transformers==4.19.2
+pip install scipy pyserini pytrec_eval
+```
 
-TODO: requirements.txt, download links for data, initial and trained model checkpoints.
+The corpus, datasets, document matrices, first-pass retrieval results, and model checkpoints can be downloaded from my [OneDrive](https://mailsucaseducn-my.sharepoint.com/:f:/g/personal/zhuyunchang17_mails_ucas_edu_cn/EkKyXIuEcDNAu2MpfRxdo_oB6fw8WdG4c3GUfVgKRfReeg).
+After downloading, please merge them into this project.
+Of these, the largest files are those matrices in `data/msmarco-passage/matrix/`.
+If you don't want to download them, you need to generate them by running `notebooks/prepocess_index_*.ipynb`.
+Simply put, those two notebooks convert the prebuilt-index loaded from [pyserini](https://github.com/castorini/pyserini) into a specified number of document vectors, which will be used during training or inference.
 
 ### For dense retrieval (ANCE)
 
@@ -64,7 +77,7 @@ python run.py \
     --qrels_path data/msmarco-passage/qrels.${SPLIT}.txt \
     --prf --max_n_prf 5 \
     --max_seq_len 512 --max_q_len 128 --max_p_len 128 \
-    --dataloader_num_workers 32 \
+    --dataloader_num_workers 24 \
     --model_type dqrd --model_name_or_path ${CKPT} --norm_power nan \
     --output_dir ${CKPT} \
     --do_predict \
@@ -73,7 +86,7 @@ python run.py \
     --run_result_path ${CKPT}/retr.${SPLIT}.prfK.tsv
 
 # Clean retrieval files
-#rm ckpts/ance-bf/*/checkpoint-*/retr.dev.small.prf*.tsv 
+#rm ckpts/ance-bf/*/checkpoint-*/retr.dev.small.prf*.tsv
 ```
 
 #### Prediction
@@ -97,6 +110,9 @@ python run.py \
     --per_device_eval_batch_size 24 \
     --eval_board_path ckpts/${RF}/retr.${SPLIT}.prfK.metrics.tsv \
     --run_result_path ${CKPT}/retr.${SPLIT}.prfK.tsv
+
+# Clean retrieval files
+#rm ckpts/ance-bf/*/checkpoint-*/retr.eval.small.prf*.tsv
 ```
 
 ### For sparse retrieval (uniCOIL)
@@ -159,7 +175,7 @@ python run.py \
     --run_result_path ${CKPT}/retr.${SPLIT}.prfK.tsv
 
 # Clean retrieval files
-#rm ckpts/unicoil-b8/*/checkpoint-*/retr.dev.small.prf*.tsv 
+#rm ckpts/unicoil-b8/*/checkpoint-*/retr.dev.small.prf*.tsv
 ```
 
 #### Prediction
@@ -183,4 +199,7 @@ python run.py \
     --per_device_eval_batch_size 24 \
     --eval_board_path ckpts/${RF}/retr.${SPLIT}.prfK.metrics.tsv \
     --run_result_path ${CKPT}/retr.${SPLIT}.prfK.tsv
+
+# Clean retrieval files
+#rm ckpts/unicoil-b8/*/checkpoint-*/retr.eval.small.prf*.tsv
 ```
