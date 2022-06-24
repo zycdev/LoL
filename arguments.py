@@ -112,6 +112,9 @@ class DataArguments:
 @dataclass
 class DqrTrainingArguments(TrainingArguments):
     logging_nan_inf_filter: bool = field(default=False, metadata={"help": "Filter nan and inf losses for logging."})
+    remove_unused_columns: Optional[bool] = field(
+        default=False, metadata={"help": "Remove columns not required by the model when using an nlp.Dataset."}
+    )
 
     n_compare: int = field(default=0, metadata={"help": "The number of comparative samples for each query."})
     lambda_pr: float = field(default=1.0, metadata={"help": "The weight of passage ranking loss."})

@@ -7,7 +7,8 @@ This repository contains the code and trained models for our SIGIR paper [LoL: A
 
 ### Setup
 
-Our experiments are conducted in the following environment with 4 V100 (32 GB) GPUs.
+Our experiments are conducted in the following environment with 4 V100 (32 GB) GPUs, where one GPU is dedicated to retrieval and the rest for reformulating queries.
+At least two GPUs are needed to get it running.
 ```shell
 conda create -n cr python=3.8
 conda activate cr
@@ -82,6 +83,7 @@ python run.py \
     --output_dir ${CKPT} \
     --do_predict \
     --per_device_eval_batch_size 24 \
+    --label_names poss_idx psgs_label \
     --eval_board_path ckpts/${RF}/retr.${SPLIT}.prfK.metrics.tsv \
     --run_result_path ${CKPT}/retr.${SPLIT}.prfK.tsv
 
@@ -108,6 +110,7 @@ python run.py \
     --output_dir ${CKPT} \
     --do_predict \
     --per_device_eval_batch_size 24 \
+    --label_names poss_idx psgs_label \
     --eval_board_path ckpts/${RF}/retr.${SPLIT}.prfK.metrics.tsv \
     --run_result_path ${CKPT}/retr.${SPLIT}.prfK.tsv
 
@@ -171,6 +174,7 @@ python run.py \
     --output_dir ${CKPT} \
     --do_predict \
     --per_device_eval_batch_size 24 \
+    --label_names poss_idx psgs_label \
     --eval_board_path ckpts/${RF}/retr.${SPLIT}.prfK.metrics.tsv \
     --run_result_path ${CKPT}/retr.${SPLIT}.prfK.tsv
 
@@ -197,9 +201,23 @@ python run.py \
     --output_dir ${CKPT} \
     --do_predict \
     --per_device_eval_batch_size 24 \
+    --label_names poss_idx psgs_label \
     --eval_board_path ckpts/${RF}/retr.${SPLIT}.prfK.metrics.tsv \
     --run_result_path ${CKPT}/retr.${SPLIT}.prfK.tsv
 
 # Clean retrieval files
 #rm ckpts/unicoil-b8/*/checkpoint-*/retr.eval.small.prf*.tsv
+```
+
+
+## Citation
+
+If you use LoL in your work, please consider citing our paper:
+```
+@article{zhu2022lol,
+  title={LoL: A Comparative Regularization Loss over Query Reformulation Losses for Pseudo-Relevance Feedback},
+  author={Zhu, Yunchang and Pang, Liang and Lan, Yanyan and Shen, Huawei and Cheng, Xueqi},
+  journal={arXiv preprint arXiv:2204.11545},
+  year={2022}
+}
 ```
