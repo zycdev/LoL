@@ -214,10 +214,20 @@ python run.py \
 
 If you use LoL in your work, please consider citing our paper:
 ```
-@article{zhu2022lol,
-  title={LoL: A Comparative Regularization Loss over Query Reformulation Losses for Pseudo-Relevance Feedback},
-  author={Zhu, Yunchang and Pang, Liang and Lan, Yanyan and Shen, Huawei and Cheng, Xueqi},
-  journal={arXiv preprint arXiv:2204.11545},
-  year={2022}
+@inproceedings{zhu2022lol,
+  author = {Zhu, Yunchang and Pang, Liang and Lan, Yanyan and Shen, Huawei and Cheng, Xueqi},
+  title = {LoL: A Comparative Regularization Loss over Query Reformulation Losses for Pseudo-Relevance Feedback},
+  year = {2022},
+  isbn = {9781450387323},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  url = {https://doi.org/10.1145/3477495.3532017},
+  doi = {10.1145/3477495.3532017},
+  booktitle = {Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  pages = {825–836},
+  numpages = {12},
+  keywords = {regularization, query reformulation, pseudo-relevance feedback},
+  location = {Madrid, Spain},
+  series = {SIGIR '22}
 }
 ```
